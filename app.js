@@ -6,6 +6,7 @@ const app = express();
 const cors=require('cors')
 
 const Chatuser = require('./models/chatuser')
+const Message = require('./models/message')
 const bodyParser = require('body-parser');
 
 app.use(bodyParser.urlencoded({extended:false}))
@@ -14,8 +15,17 @@ app.use(cors())
 
 const sequelize = require('./util/database')
 const signup=require('./routes/signup')
+const message =require('./routes/message')
 
 app.use(signup)
+app.use(message)
+
+
+Chatuser.hasMany(Message)
+Message.belongsTo(Chatuser)
+
+
+
 
 
 sequelize
