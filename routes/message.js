@@ -8,6 +8,7 @@ const authenticate = require('../middleware/auth')
 const router = express.Router();
 
 router.post('/message',authenticate.authenticate,message.postmessage)
+router.get('/message',message.getmessage)
 
 
 

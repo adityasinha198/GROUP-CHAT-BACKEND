@@ -8,16 +8,19 @@ exports.postmessage = (req,res,next) => {
     const message = req.body.message
     const a = req.user
     const chatuserId = a.id
+    const username = a.username
     console.log(a.id)
     console.log(message,"Nice")
     
     Message
     .create({
+        username:username,
         message:message,
         chatuserId:chatuserId
        
       })
       .then(result => {
+        res.json(result)
           
        
         
@@ -30,6 +33,16 @@ exports.postmessage = (req,res,next) => {
 
 }
 
+
+exports.getmessage = (req,res,next) => {
+
+    Message.findAll()
+    .then(messages => {
+        console.log(messages)
+        res.json({messages:messages})
+    })
+    .catch(err => console.log(err))
+}
 
 
 
