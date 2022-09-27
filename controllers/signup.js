@@ -2,8 +2,9 @@ const Chatuser = require("../models/chatuser")
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 
-// function gettokenaccess(Id)
-// { return jwt.sign({userid:Id},'aaaada')}
+ function gettokenaccess(Id)
+{ 
+    return jwt.sign({userid:Id},'aaaada')}
 
 
 exports.postSignUp=async (req,res,next)=>{
@@ -62,43 +63,44 @@ exports.postSignUp=async (req,res,next)=>{
    
   };
 
-// exports.login = (req,res,next) => {
+exports.login = (req,res,next) => {
     
-//     const email = req.body.emailid;
-//     const password = req.body.password;
-//     console.log(email,password)
+    const email = req.body.emailid;
+    const password = req.body.password;
+    console.log(email,password)
 
    
-//     Chatuser.findAll({where:{email:email}})
-//     .then(user=>{
-//       console.log("In the program")
-//       bcrypt.compare(password,user[0].password,(err,result) => {
+    Chatuser.findAll({where:{email:email}})
+    .then(user=>{
+      console.log("In the program")
+      bcrypt.compare(password,user[0].password,(err,result) => {
     
       
-//       if (result == true) {
-//         console.log(user[0].ispremiumuser)
-//         if(user[0].ispremiumuser == true){
-//         return res.status(200).json({success:true, message:'User logged in',token:gettokenaccess(user[0].id),ispremiumuser:user[0].ispremiumuser}) 
-//         }
-//         return res.status(200).json({success:true, message:'User logged in',token:gettokenaccess(user[0].id)}) 
-//       }
-//       else if(!result){
-//         return res.status(401).json({success:false, message:'User not authorised'}) 
+      if (result == true) {
+        //console.log(user[0].ispremiumuser)
+        //if(user[0].ispremiumuser == true){
+        return res.status(200).json({success:true, message:'User logged in',token:gettokenaccess(user[0].id)//,ispremiumuser:user[0].ispremiumuser
+    }) 
+        //}
+        //return res.status(200).json({success:true, message:'User logged in',token:gettokenaccess(user[0].id)}) 
+      }
+      else if(!result){
+        return res.status(401).json({success:false, message:'User not authorised'}) 
         
 
 
-//       }//
-//     })
+      }//
+    })
 
 
       
-//   })
+  })
   
-//   .catch(err => {
-//     return res.status(404).json({success:false, message:'User not found'})
+  .catch(err => {
+    return res.status(404).json({success:false, message:'User not found'})
     
- // })
-  //}
+ })
+  }
      
     
     
