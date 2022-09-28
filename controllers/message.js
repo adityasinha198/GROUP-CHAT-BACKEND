@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken")
 
 exports.postmessage = (req,res,next) => {
     console.log("Hello")
+    
     const message = req.body.message
     const a = req.user
     const chatuserId = a.id
@@ -20,6 +21,7 @@ exports.postmessage = (req,res,next) => {
        
       })
       .then(result => {
+        console.log(result)
         res.json(result)
           
        
@@ -35,11 +37,38 @@ exports.postmessage = (req,res,next) => {
 
 
 exports.getmessage = (req,res,next) => {
+  console.log(req.params.query,"12333")
+  // req.parms.query
+  //console.log(query)
+  
 
     Message.findAll()
     .then(messages => {
-        console.log(messages)
+      
+      if(req.params.query == "abc"){
+
+        // if(messages.length == 0){
+        //   res.json("No chats present")
+        // }
+        console.log("Hello")
+
+    
+       // console.log(messages)
         res.json({messages:messages})
+      }
+
+      else{
+        const arr = []
+        for(let i= 0;i<messages.length;i++){
+          if(messages[i].id >req.params.query){
+            arr.push(messages[i])
+          }
+        }
+        //console.log(messages)
+        res.json({messages:arr})
+      }
+
+      
     })
     .catch(err => console.log(err))
 }
