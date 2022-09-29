@@ -5,7 +5,8 @@ const jwt = require("jsonwebtoken")
 
 exports.postmessage = (req,res,next) => {
     console.log("Hello")
-    
+    const groupid = req.params.groupid
+    console.log(groupid,"Nice")
     const message = req.body.message
     const a = req.user
     const chatuserId = a.id
@@ -17,18 +18,16 @@ exports.postmessage = (req,res,next) => {
     .create({
         username:username,
         message:message,
-        chatuserId:chatuserId
+        chatuserId:chatuserId,
+        groupId:groupid
        
       })
       .then(result => {
-        console.log(result)
+        console.log(result.id,"Y")
         res.json(result)
           
        
-        
-    
-        console.log('Created ExpenseUser');
-    })
+      })
       .catch(err => {
         console.log(err);
       });
@@ -40,9 +39,10 @@ exports.getmessage = (req,res,next) => {
   console.log(req.params.query,"12333")
   // req.parms.query
   //console.log(query)
-  
+  const groupid = req.header("groupid")
+  console.log(groupid,"Comming bro")
 
-    Message.findAll()
+    Message.findAll({where:{groupId:groupid}})
     .then(messages => {
       
       if(req.params.query == "abc"){
