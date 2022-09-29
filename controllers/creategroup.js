@@ -29,7 +29,8 @@ exports.postcreategroup = (req,res,next) =>{
     
     Groupuser.create({
         chatuserId:userid,
-        groupId:groupid
+        groupId:groupid,
+        admin:true,
     })
     .then(results =>{
         res.json(results)
@@ -104,7 +105,7 @@ exports.showgroups = async(req,res,next) =>{
 
         }
         res.json({groupname:arr})
-        console.log(arr)
+        //console.log(arr)
         
     }
 
@@ -127,3 +128,109 @@ exports.groupchats = (req,res,next) =>{
     
 
 }
+
+exports.makeadmin = async(req,res,next) =>{
+    let arr = []
+    const a = req.user
+    const chatuserId = a.id
+    console.log(chatuserId,"Cool")
+    const abc = req 
+    //console.log(req)
+    const groupid = req.params.groupid
+    console.log(groupid,"working")
+    let confirm = 0
+
+    let users = await Groupuser.findAll({where:{groupId:groupid}})
+    
+    for(let j=0;j<users.length;j++){
+        if(users[j].chatuserId==chatuserId && users[j].admin==true){
+            confirm = confirm + 1
+
+        }
+    }
+
+    if(confirm == 1)
+   {
+    for(let i=0;i<users.length;i++){
+        
+
+            let members = await Chatuser.findByPk(users[i].chatuserId)
+            arr.push(members)
+
+                
+
+            
+
+        }
+
+        res.json({members:arr})
+    }
+    
+    else{
+
+        res.json("You are not premium user")
+    }
+
+    }
+
+
+
+    
+exports.postmakeadmin = async(req,res,next) =>{
+    console.log("In delete")
+
+        const abc = req
+        console.log(abc)
+
+        const userid = req.body.userid
+        const groupid = req.body.groupid
+        console.log(userid,groupid,"nice")
+        try{
+
+       const user = await Groupuser.findAll({where:{chatuserId:userid,groupId:groupid}})
+
+       console.log(user[0].chatuserId,"Working")
+       user[0].update({admin:true})
+        
+    }
+
+
+        catch(err){
+
+            
+            console.log(err)
+        
+        }
+   
+    }
+
+    exports.deleteuser = async(req,res,next) =>{
+        
+        const acbc = req
+        //console.log(abc) 
+        console.log("In delete")
+
+        const userid = req.header("userid")
+        const groupid = req.header("groupid")
+        console.log(userid,groupid,"itsworking")
+
+        try{
+
+            const user = await Groupuser.findAll({where:{chatuserId:userid,groupId:groupid}})
+     
+            console.log(user[0].chatuserId,"Working")
+            user[0].destroy()
+            //res.json("User deleted")
+             
+         }
+     
+     
+             catch(err){
+     
+                 
+                 console.log(err)
+             
+             }
+        
+
+    }

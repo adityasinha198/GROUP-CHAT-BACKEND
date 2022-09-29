@@ -8,7 +8,9 @@ const Groupuser = sequelize.define('groupuser',{
         autoIncrement:true,
         allowNull:false,
         primaryKey:true
-    }
+    },
+    admin:Sequelize.BOOLEAN
+    
    
    
 })

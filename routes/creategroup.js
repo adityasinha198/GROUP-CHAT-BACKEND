@@ -11,6 +11,8 @@ router.get('/addmember',groupController.getaddmember)
 router.post('/addgroupmember',groupController.postaddmembergroup)
 router.get('/showgroups',authenticate.authenticate,groupController.showgroups)
 router.get('/groupchats/:groupid',groupController.groupchats)
-
+router.get('/makeadmin/:groupid',authenticate.authenticate,groupController.makeadmin)
+router.post('/makeadmin',groupController.postmakeadmin)
+router.delete('/deleteuser',groupController.deleteuser)
 
 module.exports = router //
